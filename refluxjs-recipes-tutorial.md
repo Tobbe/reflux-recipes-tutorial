@@ -88,8 +88,8 @@ render in to. As you can see the JSX in this case is identical to HTML, so
 it's very easy to read and learn for anyone who already knows HTML.
 
 However, this isn't very idiomatic React code. React is all about breaking
-your HTML down in to reusable components, or Classes, as they're called. So
-let's do that!
+your HTML down in to reusable components, using `React.createClass`. So let's
+do that!
 
     <!doctype html>
     <html lang="en">
@@ -142,7 +142,7 @@ Step 2a
 -------
 
 To stay more organized we're going to split the javascript/jsx parts out to
-its own file. All that's left in the html file when doing that is this:
+its own file. All that's left in the html file after doing that is this:
 
     <!doctype html>
     <html lang="en">
@@ -191,7 +191,7 @@ its own file. All that's left in the html file when doing that is this:
     })(window.React);
 
 As you can see I've made some changes compared to how the JSX looked before.
-Let's go throught it!
+Let's go through it!
 
     var recipes = [
         'Breakfast butter eggs',
@@ -207,8 +207,7 @@ representation that you can iterate over to create an array of recipe titles.
         return <li>{recipe}</li>;
     });
 
-We then loop though the array, creating `li` elements for each recipe
-title.
+We then loop over the array, creating `li` elements for each recipe title.
 
     return (
         <div>
@@ -220,14 +219,14 @@ title.
     );
 
 The newly created array of recipe title list items is then used in the return
-value from the `render` method. `{}` is used to get the value of a javascript
+value from the `render` method. `{}` is used to get the value of a JavaScript
 expression. In this case it's the `recipesElement` array of `li` elements we
 created earlier.
 
 Step 2b
 -------
 
-For this step we'll add a form to add/edit recipes.
+For this step we'll add a form (just the form, no logic) to add/edit recipes.
 
 We'll start with some basic CSS styling for the form. To keep it simple we'll
 just add it straight to the main html file.
@@ -289,7 +288,7 @@ Just like before we render our `RecipeApp` component to the `content` div.
         }
     });
 
-The `RecipeApp` component now is the owner of two new components, the
+The `RecipeApp` component is now the owner of two new components, the
 `RecipeList` component and the `RecipeForm` component. The `RecipeList`
 component has an attribute called `recipes` that takes our list of recipe
 titles as its value. In the React world we call these attributes "props".
