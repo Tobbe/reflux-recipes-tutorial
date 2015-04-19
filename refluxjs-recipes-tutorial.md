@@ -83,9 +83,9 @@ And now it's finally time to add our first generated HTML
     </html>
 
 So what we're doing here is calling `React.render()` with two parameters. The
-first one is our JSX-formatted HTML, and the second one is the element render
-in to. As you can see the JSX in this case is identical to HTML, so it's very
-easy to read and learn for anyone who already knows HTML.
+first one is our JSX-formatted HTML, and the second one is the element to
+render in to. As you can see the JSX in this case is identical to HTML, so
+it's very easy to read and learn for anyone who already knows HTML.
 
 However, this isn't very idiomatic React code. React is all about breaking
 your HTML down in to reusable components, or Classes, as they're called. So
