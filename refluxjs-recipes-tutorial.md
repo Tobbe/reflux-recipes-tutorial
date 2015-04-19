@@ -23,16 +23,18 @@ with the comment box.
 
 This is the HTML we're going to work with:
 
-    <!doctype html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>React + Reflux + ReactRouter - Recipes - Step 1</title>
-    </head>
-    <body>
-        <div id="content"></div>
-    </body>
-    </html>
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>React + Reflux + ReactRouter - Recipes - Step 1</title>
+</head>
+<body>
+    <div id="content"></div>
+</body>
+</html>
+```
 
 Pretty much just an empty div that we'll put React-generated html in to.
 
@@ -41,46 +43,50 @@ be using JSX.
 
 So we add react and JSXTransformer to our HTML file:
 
-    <!doctype html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>React + Reflux + ReactRouter - Recipes - Step 1</title>
-    </head>
-    <body>
-        <div id="content"></div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/react.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/JSXTransformer.js"></script>
-    </body>
-    </html>
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>React + Reflux + ReactRouter - Recipes - Step 1</title>
+</head>
+<body>
+    <div id="content"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/JSXTransformer.js"></script>
+</body>
+</html>
+```
 
 And now it's finally time to add our first generated HTML
 
-    <!doctype html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>React + Reflux + ReactRouter - Recipes - Step 1</title>
-    </head>
-    <body>
-        <div id="content"></div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/react.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/JSXTransformer.js"></script>
-        <script type="text/jsx">
-            React.render(
-                <div>
-                    <h1>Recipes</h1>
-                    <ul>
-                        <li>Breakfast butter eggs</li>
-                        <li>Tony's avocado</li>
-                        <li>Coconut porridge</li>
-                    </ul>
-                </div>,
-                document.getElementById('content')
-            );
-        </script>
-    </body>
-    </html>
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>React + Reflux + ReactRouter - Recipes - Step 1</title>
+</head>
+<body>
+    <div id="content"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/JSXTransformer.js"></script>
+    <script type="text/jsx">
+        React.render(
+            <div>
+                <h1>Recipes</h1>
+                <ul>
+                    <li>Breakfast butter eggs</li>
+                    <li>Tony's avocado</li>
+                    <li>Coconut porridge</li>
+                </ul>
+            </div>,
+            document.getElementById('content')
+        );
+    </script>
+</body>
+</html>
+```
 
 So what we're doing here is calling `React.render()` with two parameters. The
 first one is our JSX-formatted HTML, and the second one is the element to
@@ -91,39 +97,41 @@ However, this isn't very idiomatic React code. React is all about breaking
 your HTML down in to reusable components, using `React.createClass`. So let's
 do that!
 
-    <!doctype html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>React + Reflux + ReactRouter - Recipes - Step 1</title>
-    </head>
-    <body>
-        <div id="content"></div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/react.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/JSXTransformer.js"></script>
-        <script type="text/jsx">
-            var RecipeApp = React.createClass({
-                render: function() {
-                    return (
-                        <div>
-                            <h1>Recipes</h1>
-                            <ul>
-                                <li>Breakfast butter eggs</li>
-                                <li>Tony's avocado</li>
-                                <li>Coconut porridge</li>
-                            </ul>
-                        </div>
-                    );
-                }
-            });
+```javascript
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>React + Reflux + ReactRouter - Recipes - Step 1</title>
+</head>
+<body>
+    <div id="content"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.12.2/JSXTransformer.js"></script>
+    <script type="text/jsx">
+        var RecipeApp = React.createClass({
+            render: function() {
+                return (
+                    <div>
+                        <h1>Recipes</h1>
+                        <ul>
+                            <li>Breakfast butter eggs</li>
+                            <li>Tony's avocado</li>
+                            <li>Coconut porridge</li>
+                        </ul>
+                    </div>
+                );
+            }
+        });
 
-            React.render(
-                <RecipeApp />,
-                document.getElementById('content')
-            );
-        </script>
-    </body>
-    </html>
+        React.render(
+            <RecipeApp />,
+            document.getElementById('content')
+        );
+    </script>
+</body>
+</html>
+```
 
 Here we created a RecipeApp component, and then we rendered that in to the same
 element as we used before. So visually there's no difference, but doing it like
