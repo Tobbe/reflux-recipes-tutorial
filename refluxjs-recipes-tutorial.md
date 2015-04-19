@@ -97,7 +97,7 @@ However, this isn't very idiomatic React code. React is all about breaking
 your HTML down in to reusable components, using `React.createClass`. So let's
 do that!
 
-```javascript
+```html
 <!doctype html>
 <html lang="en">
 <head>
