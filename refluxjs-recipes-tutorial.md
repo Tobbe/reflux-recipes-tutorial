@@ -675,12 +675,12 @@ var RecipeForm = React.createClass({
 });
 ```
 
-Step 3c
+Step 4a
 -------
 
-Seeing recipe titles is of no great use, now is it? So the next logical step
-is to show full recipes. Before we can start coding we need the actual full
-recipes. So let's add the info to the `recipesStore`.
+Seeing just the recipe titles is of no great use, now is it? So the next
+logical step is to show full recipes. Before we can start coding we need the
+actual full recipes. So let's add the info to the `recipesStore`.
 
 ```javascript
 recipes: [
@@ -755,3 +755,100 @@ recipes: [
     }
 ],
 ```
+
+Yeah, that obviously belongs in a database or something. Not hardcoded
+straight in to the source code. But to keep it as simple as possible, this
+is what we'll do for now.
+
+Now that each recipe contains more than just the name we need to make a couple
+of small changes to our existing code. First, when creating the `RecipeListItem`s in
+`RecipeList` we now need to specify `recipe.name` when setting the prop.
+
+```javascript
+var recipeElements = this.state.recipes.map(function (recipe) {
+    return (<RecipeListItem recipeName={recipe.name} />);
+});
+```
+
+Second, when adding a new recipe we need to create an object with a `name`
+attribute set to the name of the recipe.
+
+```javascript
+onAddRecipe: function (recipeName) {
+    this.recipes.push({name: recipeName});
+    this.trigger('ADD_RECIPE');
+},
+```
+
+Step 4b
+-------
+
+The full recipe will be displayed below the list of all our recipes, but above
+the form for adding a new recipe. `RecipeFullView` is the name of the component
+that will display the full recipe. It is rendered by `RecipeApp`.
+
+```javascript
+var RecipeApp = React.createClass({
+    render: function () {
+        return (
+            <div>
+                <RecipeList />
+                <RecipeFullView />
+                <RecipeForm />
+            </div>
+        );
+    }
+});
+```
+
+```javascript
+var RecipeFullView = React.createClass({
+    getInitialState: function () {
+        return {
+            recipe: recipesStore.getRecipes()[0]
+        };
+    },
+
+    render: function () {
+        var ingredientElements = this.state.recipe.ingredients.map(function (ingredient) {
+            return (<RecipeIngredientListItem ingredient={ingredient} />);
+        });
+
+        return (
+            <div>
+                <h1>{this.state.recipe.name}</h1>
+                <h2>Description</h2>
+                <p>{this.state.recipe.description}</p>
+                <h2>Ingredients</h2>
+                <ul>
+                    {ingredientElements}
+                </ul>
+                <h2>Directions</h2>
+                <p>{this.state.recipe.directions}</p>
+            </div>
+        );
+    }
+});
+```
+
+If you're paying attention you'll notice that another new component is
+introduced as well, `RecipeIngredientListItem`. It's really simple:
+
+```javascript
+var RecipeIngredientListItem = React.createClass({
+    render: function () {
+        return (
+            <li>
+                {this.props.ingredient.quantity + " "}
+                {this.props.ingredient.name}
+            </li>
+        );
+    }
+});
+```
+
+Looking at the web page in your browser now you should see a list of three
+recipes at the top, followed by the full recipe for "Breakfast butter eggs".
+After the full recipe, at the bottom of the page, there should be a form for
+adding new recipes. Typing in a recipe in the form and pressing "Save" should
+add the name of the recipe to the list at the top of the page.
