@@ -674,3 +674,84 @@ var RecipeForm = React.createClass({
     }
 });
 ```
+
+Step 3c
+-------
+
+Seeing recipe titles is of no great use, now is it? So the next logical step
+is to show full recipes. Before we can start coding we need the actual full
+recipes. So let's add the info to the `recipesStore`.
+
+```javascript
+recipes: [
+    {
+        'name': 'Breakfast butter eggs',
+        'description': 'Scrambled eggs alternative',
+        'ingredients': [
+            {
+                'quantity': '2',
+                'name': 'eggs'
+            },
+            {
+                'quantity': '2 Tbsp',
+                'name': 'butter'
+            },
+            {
+                'quantity': '1/3 cup',
+                'name': 'cheese, grated'
+            }
+        ],
+        'directions': 'Hard boil the eggs. While still warm, peel them and chop them in to small pieces. Mix with the butter and your favorite hard cheese. Season with fresh ground salt and pepper.'
+    },
+    {
+        'name': 'Tony\'s avocado',
+        'description': 'Quick and tasty avocado snack or appetizer',
+        'ingredients': [
+            {
+                'quantity': '1/2',
+                'name': 'avocado'
+            },
+            {
+                'quantity': '2 Tbsp',
+                'name': 'turkish yoghurt, 10% fat'
+            },
+            {
+                'quantity': '2 tsp',
+                'name': 'heavy cream, 40% fat'
+            },
+            {
+                'quantity': '1/4 tsp',
+                'name': 'Tony Chachere\'s Original Creole Seasoning'
+            }
+        ],
+        'directions': 'Cut an avocado in half, remove the seed. Mix the yoghurt and cream with a spoon and place on one of the avocado halves. Sprinkle Tony\'s seasoning on top to taste'
+    },
+    {
+        'name': 'Coconut porridge',
+        'description': 'Filling and tasty breakfast porridge',
+        'ingredients': [
+            {
+                'quantity': '1',
+                'name': 'egg'
+            },
+            {
+                'quantity': '3.5 fl oz',
+                'name': 'coconut cream'
+            },
+            {
+                'quantity': '1 Tbsp',
+                'name': 'coconut flour'
+            },
+            {
+                'quantity': '1/8 tsp',
+                'name': 'vanilla powder'
+            },
+            {
+                'quantity': '1/2 tsp',
+                'name': 'cinnamon'
+            }
+        ],
+        'directions': 'Add all ingredients to a saucepan and bring to a boil while stiring. Keep boiling and stiring until it has a porridge like thickness.'
+    }
+],
+```
