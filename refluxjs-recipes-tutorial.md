@@ -852,3 +852,157 @@ recipes at the top, followed by the full recipe for "Breakfast butter eggs".
 After the full recipe, at the bottom of the page, there should be a form for
 adding new recipes. Typing in a recipe in the form and pressing "Save" should
 add the name of the recipe to the list at the top of the page.
+
+Step 4c
+-------
+
+In this step we'll make it possible to change what recipe is shown in full, so
+that we can read all recipes. Basically what needs to be done is to:
+
+ * Create a new action that's fired when clicking a recipe title.
+ * Make the recipesStore aware of the action.
+ * Generate events when the active recipe changes that `RecipeFullView`
+   listens to.
+ * Update the view when those events are received.
+
+### New action
+
+Creating a new action is super simple.
+
+```javascript
+var setActiveRecipe = Reflux.createAction();
+```
+
+### Update recipes store
+
+Then we add support for it in the store.
+
+```javascript
+var recipesStore = Reflux.createStore({
+    activeRecipe: 0,
+
+    recipes: [
+       // ...
+    ],
+
+    init: function () {
+        // ...
+        this.listenTo(setActiveRecipe, this.onSetActiveRecipe);
+    },
+
+    onAddRecipe: function (recipeName) {
+        // ...
+    },
+
+    onSetActiveRecipe: function (recipeId) {
+        this.activeRecipe = recipeId;
+        this.trigger('SET_ACTIVE_RECIPE');
+    },
+
+    getRecipes: function () {
+        // ...
+    },
+
+    getActiveRecipe: function () {
+        return this.recipes[this.activeRecipe];
+    }
+});
+```
+
+(I've removed code that's not relevant to the new action)
+
+Now that we have the `getActiveRecipe()` method we can update the
+`getInitialState()` method in the `RecipeFullView` component.
+
+```javascript
+getInitialState: function () {
+    return {
+        recipe: recipesStore.getActiveRecipe()
+    };
+},
+```
+
+### Generate event (by firing action)
+
+When clicking a recipe name an action to change the active recipe needs to be
+fired off.
+
+```javascript
+var RecipeListItem = React.createClass({
+    handleClick: function (e) {
+        e.preventDefault();
+        setActiveRecipe(this.props.recipeIndex);
+    },
+
+    render: function () {
+        var recipeName = this.props.recipeName;
+        return (
+            <li key="{recipeName}"><a href="#" onClick={this.handleClick}>{recipeName}</a></li>
+        );
+    }
+});
+```
+
+The recipe index needs to be fed to the list item. That is done inside the
+`render` method in the `RecipeList` component.
+
+```javascript
+var recipeElements = this.state.recipes.map(function (recipe, index) {
+    return (<RecipeListItem recipeName={recipe.name} recipeIndex={index} />);
+});
+```
+
+As a result of the updates we made to the recipe store the `SET_ACTIVE_RECIPE`
+event will be generated when the `setActiveRecipe` action is fired.
+
+### Update view
+
+In addition to updating the `getInitialState` function, `RecipeFullView` also
+needs to subscribe (and unsubscribe) to events from the store.
+
+```javascript
+componentDidMount: function() {
+    this.unsubscribe = recipesStore.listen(this.onActiveRecipeChange);
+},
+
+componentWillUnmount: function() {
+    this.unsubscribe();
+}
+```
+
+When `recipesStore` generates an event `this.onActiveRecipeChange` will be
+called.
+
+```javascript
+onActiveRecipeChange: function (action) {
+    this.setState({
+        recipe: recipesStore.getActiveRecipe()
+    });
+}
+```
+
+When the state is changed, the view will update.
+
+Since the recipe store can generate two different events a simple if statement
+is added to our two event listener functions
+
+```javascript
+onActiveRecipeChange: function (action) {
+    if (action === 'SET_ACTIVE_RECIPE') {
+        this.setState({
+            recipe: recipesStore.getActiveRecipe()
+        });
+    }
+}
+```
+
+```javascript
+onRecipesChange: function (action) {
+    if (action === 'ADD_RECIPE') {
+        this.setState({
+            recipes: recipesStore.getRecipes()
+        });
+    }
+},
+```
+
