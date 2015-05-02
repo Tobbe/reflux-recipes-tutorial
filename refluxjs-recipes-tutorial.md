@@ -479,7 +479,7 @@ The entire file, as promised:
 Step 3a
 -------
 
-Now it's finally time to bring in Reflux! First thing to do is add the libary
+Now it's finally time to bring in Reflux! First thing to do is add the library
 to our html file.
 
 ```html
@@ -516,7 +516,7 @@ to our html file.
 
 See how we added a link to `reflux.min.js` there? Good! We'll now create our
 first Flux Store. It'll be a store for our recipes. For now let's just put our
-three familiar recipie titles in it.
+three familiar recipe titles in it.
 
 ```javascript
 var recipesStore = Reflux.createStore({
@@ -565,7 +565,7 @@ bottom we have `})(window.React, window.Reflux);`.
 
 That's it. We're now using a Reflux store to handle our data, and we display
 it in our view components. But to get the full Reflux flow going we need to
-add one last piece to the puzzle. Actions. That'll be Part 3b.
+add one last piece to the puzzle. Actions. That'll be Step 3b.
 
 Step 3b
 -------
@@ -598,7 +598,7 @@ The subscription, unsubscription and event handling is all done in the
 
 ```javascript
 var RecipeList = React.createClass({
-getInitialState: function () {
+    getInitialState: function () {
         return {
             recipes: recipesStore.getRecipes()
         };
@@ -635,7 +635,7 @@ getInitialState: function () {
 });
 ```
 
-The action is called when submitting the form, so it's add it to the
+The action is to be called when submitting the form, so let's add it to the
 `RecipeForm` component. The important parts in the code below is the function
 we call in `onSubmit` for the form, and how we call the `addRecipe` action with
 the name of the recipe as the parameter inside that `onSubmit`-function.
@@ -875,14 +875,14 @@ var setActiveRecipe = Reflux.createAction();
 
 ### Update recipes store
 
-Then we add support for it in the store.
+The recipes store is updated with support for the new action.
 
 ```javascript
 var recipesStore = Reflux.createStore({
     activeRecipe: 0,
 
     recipes: [
-       // ...
+        // ...
     ],
 
     init: function () {
@@ -986,6 +986,8 @@ When the state is changed, the view will update.
 Since the recipe store can generate two different events a simple if statement
 is added to our two event listener functions
 
+In `RecipeFullView`
+
 ```javascript
 onActiveRecipeChange: function (action) {
     if (action === 'SET_ACTIVE_RECIPE') {
@@ -995,6 +997,8 @@ onActiveRecipeChange: function (action) {
     }
 }
 ```
+
+In `RecieList`:
 
 ```javascript
 onRecipesChange: function (action) {
